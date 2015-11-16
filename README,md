@@ -1,0 +1,60 @@
+Getting-and-Cleaning-Data
+=========================
+Introduction
+------------
+Git Repository for "Getting and Cleaning Data" course project.  It includes the R script, run_analysis.R, that merges data from the Human Activity Recognition Using Smartphones Data Set project to create a csv of average readings for each activity and user.
+
+About the raw data
+------------------
+There are two data sets: training set and testing set.  
+
+Both data sets contain the following files:
+- actual data: X_train.txt / X_test.txt
+- data labels: y_train.txt / y_test.txt
+- subject ids: subject_train.txt / subject_test.txt
+
+In addition, feature names are found in features.txt while activity id and names are found in activity_labels.txt. 
+
+Using the script
+----------------
+Before using the script, please extract the UCI HAR Dataset in your working directory.
+
+The script does the following: 
+1. Merges the training and the test sets to create one data set.
+2. Extracts only the measurements on the mean and standard deviation for each measurement. 
+3. Uses descriptive activity names to name the activities in the data set
+4. Appropriately labels the data set with descriptive variable names. 
+5. Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+
+About the run_analysis.R Script
+-------------------------------
+The run_analysis.R script tidies the data via the following procedures:
+
+1. Read the training data, labels, and subjects as 'train_data', 'train_label', and 'train_subject'.
+
+2. Read the test data, labels, and subjects as 'test_data', 'test_label', and 'test_subject'. 
+
+3. Read the feature names, and activity id and names as 'feature' and 'activity'.
+
+4. Column names are then assigned to the data sets.
+	- 'train_data' and 'test_data' columns receive names based on 'feature'.  
+	- 'train_label' and 'test_label' columns are renamed 'activity_id'.
+	- 'train_subject' and 'test_subject' columns are renamed 'subject_id'.
+	- 'activity' columns are renamed 'activity_id' and 'activity_name'.
+
+5. Merge (via columnbind) 'train_data', 'train_label', and 'train_subject' to create a single data set for training data called 'train_set'.
+6. Merge (via columnbind) 'test_data', 'test_label', 'test_subject' to create a single data set for test data called 'test_set'.
+7. Merge (via rowbind) 'train_set' and 'test_set' to create the full data set called 'train_test_data'.
+
+8. From 'train_test_data', create a new data set called 'all_data' that only contains columns for 'activity_id', 'subject_id', and measurements of mean and standard deviation.
+
+9. Add 'activity_name' column from 'activity' to 'all_data' by merging on 'activity_id'.  
+
+10. Transform 'subject_id' column from integer to factor.
+
+11. Create 'tidy_data' by aggregating 'all_data' by 'activity_name' and 'subject_id' to derive mean values for each feature.  
+
+12. Remove 'subject_id' and 'activity_name' columns (since they only show NA).
+
+13. Write 'tidy_data' into a csv file 'tidy_data.csv'.
+
